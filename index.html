@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Little Journey to My Heart 💕</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Tailwind custom config for romantic colors + dark mode -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'romantic-pink': '#FFB6C1',
+            'romantic-rose': '#FF69B4',
+            'romantic-lavender': '#E6E6FA',
+            'romantic-sky': '#B8E4F0',
+            'romantic-blue': '#87CEEB',
+            'doraemon-blue': '#0099DD',
+            'capybara-brown': '#8B6914',
+            'soft-cream': '#FFF5EE',
+            'deep-navy': '#1a1a2e',
+            'deep-purple': '#16213e',
+          },
+          fontFamily: {
+            'romantic': ['Georgia', 'serif'],
+            'cute': ['Quicksand', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="overflow-x-hidden transition-colors duration-700 bg-white dark:bg-deep-navy">
+
+  <!-- ====== FLOATING ELEMENTS LAYER ====== -->
+  <div id="floating-layer" class="fixed inset-0 pointer-events-none z-10 overflow-hidden"></div>
+
+  <!-- ====== NAVIGATION ====== -->
+  <nav id="main-nav" class="fixed top-0 left-0 right-0 z-40 bg-white/10 dark:bg-deep-navy/50 backdrop-blur-md border-b border-white/20 transition-all duration-500 -translate-y-full">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <span class="font-dancing text-xl text-romantic-rose font-bold">💕 My Heart</span>
+      <div class="flex items-center gap-3 sm:gap-4 text-sm font-cute">
+        <button onclick="navigateToSection('page1')" class="nav-link text-gray-700 dark:text-gray-200 hover:text-romantic-rose transition-colors">Home</button>
+        <button onclick="navigateToSection('page2')" class="nav-link text-gray-700 dark:text-gray-200 hover:text-romantic-rose transition-colors">Our Story</button>
+        <button onclick="navigateToSection('page3')" class="nav-link text-gray-700 dark:text-gray-200 hover:text-romantic-rose transition-colors">Confession</button>
+        <button onclick="navigateToSection('gallery')" class="nav-link text-gray-700 dark:text-gray-200 hover:text-romantic-rose transition-colors">Gallery</button>
+        <button id="music-toggle" class="header-music-toggle group" title="Toggle Music" aria-label="Toggle Music">
+          <i data-lucide="volume-2" class="w-4 h-4 text-romantic-rose group-hover:text-romantic-pink transition-colors" id="music-icon-on"></i>
+          <i data-lucide="volume-x" class="w-4 h-4 text-gray-400 hidden" id="music-icon-off"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ====== ANYWHERE DOOR OVERLAY ====== -->
+  <div id="door-overlay" class="fixed inset-0 z-[100] pointer-events-none flex items-center justify-center hidden">
+    <div id="door-left" class="door-panel absolute top-0 left-0 w-1/2 h-full bg-pink-300 transition-transform duration-1000 ease-in-out" style="transform: perspective(800px) rotateY(0deg); transform-origin: left center;">
+      <div class="absolute inset-4 border-4 border-pink-400 rounded-lg flex items-center justify-center">
+        <div class="door-knob absolute right-4 top-1/2 w-6 h-6 rounded-full bg-yellow-400 shadow-lg border-2 border-yellow-500"></div>
+      </div>
+    </div>
+    <div id="door-right" class="door-panel absolute top-0 right-0 w-1/2 h-full bg-pink-300 transition-transform duration-1000 ease-in-out" style="transform: perspective(800px) rotateY(0deg); transform-origin: right center;">
+      <div class="absolute inset-4 border-4 border-pink-400 rounded-lg flex items-center justify-center">
+        <div class="door-knob absolute left-4 top-1/2 w-6 h-6 rounded-full bg-yellow-400 shadow-lg border-2 border-yellow-500"></div>
+      </div>
+    </div>
+    <!-- Doraemon on the door -->
+    <svg class="absolute z-10 w-20 h-20 opacity-0 transition-opacity duration-500" id="door-doraemon" viewBox="0 0 100 100">
+      <circle cx="50" cy="55" r="42" fill="#0099DD"/>
+      <circle cx="50" cy="55" r="36" fill="white"/>
+      <ellipse cx="42" cy="45" rx="8" ry="9" fill="white" stroke="#333" stroke-width="1"/>
+      <ellipse cx="58" cy="45" rx="8" ry="9" fill="white" stroke="#333" stroke-width="1"/>
+      <circle cx="44" cy="46" r="4" fill="#333"/>
+      <circle cx="56" cy="46" r="4" fill="#333"/>
+      <circle cx="45" cy="44" r="1.5" fill="white"/>
+      <circle cx="57" cy="44" r="1.5" fill="white"/>
+      <circle cx="50" cy="53" r="5" fill="#E03030"/>
+      <circle cx="51" cy="51" r="1.5" fill="white"/>
+      <line x1="50" y1="58" x2="50" y2="72" stroke="#333" stroke-width="1.5"/>
+      <path d="M 38 62 Q 50 72 62 62" fill="none" stroke="#333" stroke-width="1.5"/>
+      <line x1="15" y1="55" x2="36" y2="60" stroke="#333" stroke-width="1"/>
+      <line x1="15" y1="62" x2="36" y2="63" stroke="#333" stroke-width="1"/>
+      <line x1="15" y1="69" x2="36" y2="66" stroke="#333" stroke-width="1"/>
+      <line x1="85" y1="55" x2="64" y2="60" stroke="#333" stroke-width="1"/>
+      <line x1="85" y1="62" x2="64" y2="63" stroke="#333" stroke-width="1"/>
+      <line x1="85" y1="69" x2="64" y2="66" stroke="#333" stroke-width="1"/>
+      <rect x="43" y="73" width="14" height="4" rx="2" fill="#E03030"/>
+      <circle cx="50" cy="75" r="3" fill="#FFD700" stroke="#CC9900" stroke-width="0.5"/>
+    </svg>
+  </div>
+
+  <!-- ====== PAGE 1: A TINY SURPRISE ====== -->
+  <section id="page1" class="page-section active min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-romantic-sky via-white to-romantic-lavender dark:from-deep-navy dark:via-deep-purple dark:to-[#2d1b2e]">
+    <!-- Background clouds -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="cloud cloud-1"></div>
+      <div class="cloud cloud-2"></div>
+      <div class="cloud cloud-3"></div>
+    </div>
+
+    <!-- Doraemon peeking from top-left -->
+    <div class="absolute top-4 left-4 doraemon-peek cursor-pointer easter-egg z-20" data-message="Believe in miracles. 💙" title="Click me!">
+      <svg viewBox="0 0 80 80" class="w-16 h-16 md:w-20 md:h-20">
+        <circle cx="40" cy="50" r="34" fill="#0099DD"/>
+        <circle cx="40" cy="50" r="28" fill="white"/>
+        <ellipse cx="34" cy="42" rx="6" ry="7" fill="white" stroke="#333" stroke-width="1"/>
+        <ellipse cx="46" cy="42" rx="6" ry="7" fill="white" stroke="#333" stroke-width="1"/>
+        <circle cx="36" cy="43" r="3" fill="#333"/>
+        <circle cx="44" cy="43" r="3" fill="#333"/>
+        <circle cx="37" cy="41.5" r="1" fill="white"/>
+        <circle cx="45" cy="41.5" r="1" fill="white"/>
+        <circle cx="40" cy="49" r="4" fill="#E03030"/>
+        <circle cx="41" cy="47.5" r="1" fill="white"/>
+        <line x1="40" y1="53" x2="40" y2="62" stroke="#333" stroke-width="1.2"/>
+        <path d="M 33 57 Q 40 64 47 57" fill="none" stroke="#333" stroke-width="1.2"/>
+        <rect x="35" y="63" width="10" height="3" rx="1.5" fill="#E03030"/>
+        <circle cx="40" cy="64.5" r="2.2" fill="#FFD700" stroke="#CC9900" stroke-width="0.5"/>
+      </svg>
+    </div>
+
+    <!-- Capybara near bottom-right -->
+    <div class="absolute bottom-8 right-8 capybara-sit cursor-pointer easter-egg z-20" data-message="Stay calm, love finds its way. 🐾" title="Click me!">
+      <svg viewBox="0 0 80 70" class="w-14 h-14 md:w-18 md:h-16">
+        <ellipse cx="40" cy="45" rx="28" ry="20" fill="#C4A265"/>
+        <ellipse cx="40" cy="45" rx="26" ry="18" fill="#D4B275"/>
+        <circle cx="30" cy="30" r="8" fill="#C4A265"/>
+        <circle cx="30" cy="30" r="6.5" fill="#D4B275"/>
+        <circle cx="50" cy="30" r="8" fill="#C4A265"/>
+        <circle cx="50" cy="30" r="6.5" fill="#D4B275"/>
+        <ellipse cx="40" cy="32" rx="14" ry="12" fill="#D4B275"/>
+        <circle cx="35" cy="30" r="2" fill="#333"/>
+        <circle cx="45" cy="30" r="2" fill="#333"/>
+        <ellipse cx="40" cy="35" rx="3" ry="2" fill="#8B6914"/>
+        <path d="M 37 38 Q 40 41 43 38" fill="none" stroke="#8B6914" stroke-width="0.8"/>
+        <circle cx="33" cy="33" r="2.5" fill="#FFB6C1" opacity="0.5"/>
+        <circle cx="47" cy="33" r="2.5" fill="#FFB6C1" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <!-- Main content -->
+    <div class="relative z-20 text-center px-6 max-w-2xl mx-auto">
+      <!-- Animated title -->
+      <h1 class="font-dancing text-4xl md:text-6xl lg:text-7xl text-romantic-rose dark:text-romantic-pink mb-8 opacity-0 animate-fade-in-up" style="animation-delay: 0.5s">
+        A Tiny Surprise ✨
+      </h1>
+      <!-- Message with typewriter effect -->
+      <div class="space-y-4 mb-12">
+        <p class="font-cute text-lg md:text-2xl text-gray-700 dark:text-gray-200 opacity-0 animate-fade-in-up" style="animation-delay: 1.2s">
+          Hey... 😊
+        </p>
+        <p class="font-cute text-lg md:text-2xl text-gray-700 dark:text-gray-200 opacity-0 animate-fade-in-up" style="animation-delay: 2s">
+          I have something special to show you.
+        </p>
+        <p class="font-cute text-base md:text-xl text-gray-600 dark:text-gray-300 opacity-0 animate-fade-in-up" style="animation-delay: 2.8s">
+          It might take just a few minutes...
+        </p>
+        <p class="font-cute text-base md:text-xl text-gray-600 dark:text-gray-300 opacity-0 animate-fade-in-up italic" style="animation-delay: 3.6s">
+          But I hope it becomes one of your favorite memories.
+        </p>
+      </div>
+      <!-- CTA Button -->
+      <button id="start-journey-btn" class="group relative px-8 py-4 md:px-12 md:py-5 bg-gradient-to-r from-romantic-pink to-romantic-rose text-white font-cute font-bold text-lg md:text-xl rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 opacity-0 animate-fade-in-up overflow-hidden" style="animation-delay: 4.5s" onclick="transitionToPage2()">
+        <span class="relative z-10">Start the Journey 💙</span>
+        <div class="absolute inset-0 bg-gradient-to-r from-romantic-rose to-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <!-- Sparkle effect on button -->
+        <div class="absolute inset-0 overflow-hidden rounded-full">
+          <div class="sparkle sparkle-1"></div>
+          <div class="sparkle sparkle-2"></div>
+          <div class="sparkle sparkle-3"></div>
+        </div>
+      </button>
+      <!-- Small capybara near button -->
+      <div class="mt-6 flex justify-center opacity-0 animate-fade-in-up" style="animation-delay: 5s">
+        <svg viewBox="0 0 50 40" class="w-10 h-8 opacity-60">
+          <ellipse cx="25" cy="25" rx="18" ry="12" fill="#D4B275"/>
+          <ellipse cx="25" cy="25" rx="16" ry="10" fill="#E4C285"/>
+          <circle cx="19" cy="17" r="5" fill="#D4B275"/>
+          <circle cx="31" cy="17" r="5" fill="#D4B275"/>
+          <circle cx="21" cy="16" r="1.2" fill="#333"/>
+          <circle cx="29" cy="16" r="1.2" fill="#333"/>
+          <ellipse cx="25" cy="19" rx="2" ry="1.2" fill="#8B6914"/>
+        </svg>
+      </div>
+    </div>
+    <!-- Animated stars -->
+    <div class="stars-container absolute inset-0 pointer-events-none"></div>
+  </section>
+
+  <!-- ====== PAGE 2: OUR LITTLE STORY ====== -->
+  <section id="page2" class="page-section min-h-screen relative overflow-hidden bg-gradient-to-b from-white via-romantic-lavender/30 to-romantic-pink/20 dark:from-deep-purple dark:via-[#1a1a2e] dark:to-[#2d1b2e]" style="display: none;">
+    <!-- Floating hearts background -->
+    <div class="hearts-bg absolute inset-0 pointer-events-none overflow-hidden"></div>
+    <!-- Section title -->
+    <div class="pt-20 md:pt-28 pb-8 text-center relative z-20">
+      <h2 class="font-dancing text-3xl md:text-5xl lg:text-6xl text-romantic-rose dark:text-romantic-pink mb-3">
+        Our Little Story 📖
+      </h2>
+      <p class="font-cute text-base md:text-lg text-gray-500 dark:text-gray-400">
+        Every moment led me closer to you...
+      </p>
+    </div>
+    <!-- Timeline -->
+    <div class="max-w-4xl mx-auto px-4 md:px-8 pb-20 relative z-20">
+      <!-- Timeline line -->
+      <div class="absolute left-8 md:left-1/2 top-32 bottom-20 w-0.5 bg-gradient-to-b from-romantic-pink via-romantic-rose to-romantic-lavender transform md:-translate-x-1/2 timeline-line"></div>
+
+      <!-- Card 1 -->
+      <div class="timeline-card opacity-0 mb-12 md:mb-16 flex flex-col md:flex-row items-center gap-4 md:gap-8">
+        <div class="md:w-1/2 md:text-right md:pr-8">
+          <div class="bg-white/60 dark:bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-xl border border-white/40 hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 group">
+            <div class="flex items-center gap-2 md:justify-end mb-3">
+              <span class="text-2xl">🌟</span>
+              <span class="font-cute text-sm text-romantic-rose font-semibold">Chapter 1</span>
+            </div>
+            <p class="font-cute text-base md:text-lg text-gray-700 dark:text-gray-200 leading-relaxed">
+              "I still remember the first time I noticed you..."
+            </p>
+          </div>
+        </div>
+        <!-- Timeline dot -->
+        <div class="hidden md:flex w-6 h-6 rounded-full bg-romantic-rose shadow-lg items-center justify-center flex-shrink-0 ring-4 ring-romantic-pink/30 z-10">
+          <div class="w-2 h-2 rounded-full bg-white"></div>
+        </div>
+        <!-- Capybara reaction -->
+        <div class="md:w-1/2 md:pl-8 flex items-center gap-3">
+          <svg viewBox="0 0 50 40" class="w-12 h-10 capybara-reaction flex-shrink-0">
+            <ellipse cx="25" cy="25" rx="18" ry="12" fill="#D4B275"/>
+            <ellipse cx="25" cy="25" rx="16" ry="10" fill="#E4C285"/>
+            <circle cx="19" cy="17" r="5" fill="#D4B275"/>
+            <circle cx="31" cy="17" r="5" fill="#D4B275"/>
+            <circle cx="21" cy="16" r="1.2" fill="#333"/>
+            <circle cx="29" cy="16" r="1.2" fill="#333"/>
+            <ellipse cx="25" cy="19" rx="2" ry="1.2" fill="#8B6914"/>
+            <path d="M 22 22 Q 25 25 28 22" fill="none" stroke="#8B6914" stroke-width="0.8"/>
+          </svg>
+          <span class="reaction-effect reaction-notice" aria-label="Capybara notices you">
+            <span></span><span></span><span></span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="timeline-card opacity-0 mb-12 md:mb-16 flex flex-col md:flex-row-reverse items-center gap-4 md:gap-8">
+        <div class="md:w-1/2 md:text-left md:pl-8">
+          <div class="bg-white/60 dark:bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-xl border border-white/40 hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 group">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-2xl">😊</span>
+              <span class="font-cute text-sm text-romantic-rose font-semibold">Chapter 2</span>
+            </div>
+            <p class="font-cute text-base md:text-lg text-gray-700 dark:text-gray-200 leading-relaxed">
+              "Slowly, your smile started becoming my favorite part of the day."
+            </p>
+          </div>
+        </div>
+        <div class="hidden md:flex w-6 h-6 rounded-full bg-romantic-rose shadow-lg items-center justify-center flex-shrink-0 ring-4 ring-romantic-pink/30 z-10">
+          <div class="w-2 h-2 rounded-full bg-white"></div>
+        </div>
+        <div class="md:w-1/2 md:pr-8 flex items-center gap-3 md:justify-end">
+          <span class="reaction-effect reaction-blush" aria-label="Capybara blushes">
+            <span></span><span></span><span></span>
+          </span>
+          <svg viewBox="0 0 50 40" class="w-12 h-10 capybara-reaction flex-shrink-0">
+            <ellipse cx="25" cy="25" rx="18" ry="12" fill="#D4B275"/>
+            <ellipse cx="25" cy="25" rx="16" ry="10" fill="#E4C285"/>
+            <circle cx="19" cy="17" r="5" fill="#D4B275"/>
+            <circle cx="31" cy="17" r="5" fill="#D4B275"/>
+            <circle cx="21" cy="16" r="1.2" fill="#333"/>
+            <circle cx="29" cy="16" r="1.2" fill="#333"/>
+            <ellipse cx="25" cy="19" rx="2" ry="1.2" fill="#8B6914"/>
+            <circle cx="18" cy="18" r="2" fill="#FFB6C1" opacity="0.5"/>
+            <circle cx="32" cy="18" r="2" fill="#FFB6C1" opacity="0.5"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="timeline-card opacity-0 mb-12 md:mb-16 flex flex-col md:flex-row items-center gap-4 md:gap-8">
+        <div class="md:w-1/2 md:text-right md:pr-8">
+          <div class="bg-white/60 dark:bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-xl border border-white/40 hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 group">
+            <div class="flex items-center gap-2 md:justify-end mb-3">
+              <span class="text-2xl">💫</span>
+              <span class="font-cute text-sm text-romantic-rose font-semibold">Chapter 3</span>
+            </div>
+            <p class="font-cute text-base md:text-lg text-gray-700 dark:text-gray-200 leading-relaxed">
+              "Without realizing it... you became someone very special to me."
+            </p>
+          </div>
+        </div>
+        <div class="hidden md:flex w-6 h-6 rounded-full bg-romantic-rose shadow-lg items-center justify-center flex-shrink-0 ring-4 ring-romantic-pink/30 z-10">
+          <div class="w-2 h-2 rounded-full bg-white"></div>
+        </div>
+        <div class="md:w-1/2 md:pl-8 flex items-center gap-3">
+          <svg viewBox="0 0 50 40" class="w-12 h-10 capybara-reaction flex-shrink-0">
+            <ellipse cx="25" cy="25" rx="18" ry="12" fill="#D4B275"/>
+            <ellipse cx="25" cy="25" rx="16" ry="10" fill="#E4C285"/>
+            <circle cx="19" cy="17" r="5" fill="#D4B275"/>
+            <circle cx="31" cy="17" r="5" fill="#D4B275"/>
+            <ellipse cx="21" cy="16" rx="1.5" ry="0.8" fill="#333"/>
+            <ellipse cx="29" cy="16" rx="1.5" ry="0.8" fill="#333"/>
+            <ellipse cx="25" cy="19" rx="2" ry="1.2" fill="#8B6914"/>
+            <path d="M 22 22 Q 25 24 28 22" fill="none" stroke="#8B6914" stroke-width="0.8"/>
+            <circle cx="18" cy="18" r="2.5" fill="#FFB6C1" opacity="0.6"/>
+            <circle cx="32" cy="18" r="2.5" fill="#FFB6C1" opacity="0.6"/>
+          </svg>
+          <span class="reaction-effect reaction-doki" aria-label="Capybara heart beats">
+            <span>💕</span><span>💗</span><span>💓</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="timeline-card opacity-0 mb-12 md:mb-16 flex flex-col md:flex-row-reverse items-center gap-4 md:gap-8">
+        <div class="md:w-1/2 md:text-left md:pl-8">
+          <div class="bg-gradient-to-br from-romantic-pink/30 to-romantic-rose/20 dark:from-romantic-rose/20 dark:to-romantic-pink/10 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-2xl border border-romantic-rose/30 hover:shadow-3xl transition-all duration-500 hover:-translate-y-1 group">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-2xl">💝</span>
+              <span class="font-cute text-sm text-romantic-rose font-semibold">Chapter 4</span>
+            </div>
+            <p class="font-cute text-base md:text-lg text-gray-700 dark:text-gray-200 leading-relaxed font-medium">
+              "And today, I gathered all my courage for this moment."
+            </p>
+          </div>
+        </div>
+        <div class="hidden md:flex w-8 h-8 rounded-full bg-romantic-rose shadow-lg items-center justify-center flex-shrink-0 ring-4 ring-romantic-pink/30 z-10 animate-pulse">
+          <span class="text-white text-xs">❤️</span>
+        </div>
+        <div class="md:w-1/2 md:pr-8 flex items-center gap-3 md:justify-end">
+          <span class="reaction-effect reaction-breath" aria-label="Capybara takes a deep breath">
+            <span></span><span></span><span></span>
+          </span>
+          <svg viewBox="0 0 50 40" class="w-12 h-10 capybara-reaction flex-shrink-0">
+            <ellipse cx="25" cy="25" rx="18" ry="12" fill="#D4B275"/>
+            <ellipse cx="25" cy="25" rx="16" ry="10" fill="#E4C285"/>
+            <circle cx="19" cy="17" r="5" fill="#D4B275"/>
+            <circle cx="31" cy="17" r="5" fill="#D4B275"/>
+            <circle cx="21" cy="16" r="1.5" fill="#333"/>
+            <circle cx="29" cy="16" r="1.5" fill="#333"/>
+            <ellipse cx="25" cy="19" rx="2" ry="1.2" fill="#8B6914"/>
+            <circle cx="18" cy="18" r="3" fill="#FF6B8A" opacity="0.5"/>
+            <circle cx="32" cy="18" r="3" fill="#FF6B8A" opacity="0.5"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- CTA to Page 3 -->
+      <div class="text-center mt-8 timeline-card opacity-0">
+        <button onclick="transitionToPage3()" class="group relative px-8 py-4 md:px-12 md:py-5 bg-gradient-to-r from-romantic-rose to-pink-500 text-white font-cute font-bold text-lg md:text-xl rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 overflow-hidden">
+          <span class="relative z-10">One Last Thing... ❤️</span>
+          <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-romantic-rose opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== PAGE 3: THE CONFESSION ====== -->
+  <section id="page3" class="page-section min-h-screen relative overflow-hidden bg-gradient-to-b from-romantic-pink/20 via-romantic-lavender/20 to-romantic-sky/20 dark:from-[#2d1b2e] dark:via-deep-purple dark:to-deep-navy" style="display: none;">
+    <!-- Sparkle overlay for video -->
+    <div id="photo-overlay" class="fixed inset-0 pointer-events-none z-30 overflow-hidden opacity-0 transition-opacity duration-1000">
+      <!-- Photos will be dynamically added here -->
+    </div>
+
+    <!-- Main content -->
+    <div class="pt-20 md:pt-28 pb-20 relative z-20">
+      <!-- Section title -->
+      <div class="text-center mb-8 md:mb-12">
+        <h2 class="font-dancing text-3xl md:text-5xl lg:text-6xl text-romantic-rose dark:text-romantic-pink mb-3">
+          My Confession 💕
+        </h2>
+        <p class="font-cute text-base md:text-lg text-gray-500 dark:text-gray-400">
+          Every word comes from the heart...
+        </p>
+      </div>
+
+      <!-- Video Player -->
+      <div class="max-w-3xl mx-auto px-4 mb-12">
+        <div id="confession-film-strip" class="confession-film-strip mb-4" aria-hidden="true">
+          <div class="film-strip-window">
+            <div id="film-strip-track" class="film-strip-track"></div>
+          </div>
+        </div>
+        <div class="video-container relative rounded-3xl overflow-hidden bg-white/20 dark:bg-white/5 backdrop-blur-xl border border-white/40 shadow-2xl p-2 md:p-3">
+          <!--
+            ====== VIDEO SOURCE ======
+            Replace the src below with your confession video file path.
+            Example: src="assets/my-confession.mp4"
+            Supported formats: mp4, webm, ogg
+          -->
+          <video id="confession-video" class="w-full rounded-2xl bg-black/20 aspect-video object-cover" preload="metadata" playsinline>
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <!-- Custom Play Button Overlay -->
+          <div id="video-play-overlay" class="absolute inset-0 flex items-center justify-center bg-black/20 rounded-3xl cursor-pointer transition-opacity duration-500 hover:bg-black/10" onclick="playVideo()">
+            <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center shadow-xl hover:scale-110 transition-transform duration-300">
+              <svg viewBox="0 0 24 24" class="w-8 h-8 md:w-10 md:h-10 text-romantic-rose ml-1" fill="currentColor">
+                <polygon points="5,3 19,12 5,21"/>
+              </svg>
+            </div>
+          </div>
+          <button id="video-pause-toggle" class="video-pause-toggle opacity-0 pointer-events-none" onclick="toggleVideoPlayback()" title="Play/Pause Video" aria-label="Play or pause video">
+            <i data-lucide="pause" class="w-5 h-5" id="video-pause-icon"></i>
+            <i data-lucide="play" class="w-5 h-5 hidden" id="video-play-icon"></i>
+          </button>
+          <!-- Video placeholder (shown when no video source) -->
+          <div id="video-placeholder" class="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-romantic-sky/50 to-romantic-pink/50 rounded-3xl">
+            <svg viewBox="0 0 100 100" class="w-24 h-24 md:w-32 md:h-32 mb-4 opacity-60">
+              <circle cx="50" cy="55" r="34" fill="#0099DD"/>
+              <circle cx="50" cy="55" r="28" fill="white"/>
+              <ellipse cx="44" cy="47" rx="6" ry="7" fill="white" stroke="#333" stroke-width="1"/>
+              <ellipse cx="56" cy="47" rx="6" ry="7" fill="white" stroke="#333" stroke-width="1"/>
+              <circle cx="46" cy="48" r="3" fill="#333"/>
+              <circle cx="54" cy="48" r="3" fill="#333"/>
+              <circle cx="50" cy="54" r="4" fill="#E03030"/>
+              <path d="M 43 58 Q 50 64 57 58" fill="none" stroke="#333" stroke-width="1.5"/>
+              <rect x="45" y="67" width="10" height="3" rx="1.5" fill="#E03030"/>
+              <circle cx="50" cy="68.5" r="2.2" fill="#FFD700"/>
+            </svg>
+            <p class="font-cute text-sm md:text-base text-gray-500 dark:text-gray-400 text-center px-8">
+              🎬 Replace <code class="bg-white/30 dark:bg-white/10 px-1 rounded">assets/confession-video.mp4</code> with your video
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Final Message (appears after video ends) -->
+      <div id="final-message" class="max-w-2xl mx-auto px-6 text-center opacity-0 transition-all duration-1000" style="display: none;">
+        <div class="bg-white/40 dark:bg-white/10 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl border border-white/40">
+          <p class="font-cute text-lg md:text-2xl text-gray-700 dark:text-gray-200 leading-relaxed mb-6 animate-typewriter">
+            You don't have to answer right away...<br>
+            I just wanted you to know how special you are to me. ❤️
+          </p>
+          <div id="proposal-question" class="opacity-0 transition-opacity duration-1000 mt-8">
+            <p class="font-dancing text-2xl md:text-3xl text-romantic-rose dark:text-romantic-pink mb-8">
+              Would you give us a chance to create many more beautiful memories together?
+            </p>
+            <!-- Proposal Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6">
+              <button id="yes-btn" onclick="handleYes()" class="group relative px-10 py-4 bg-gradient-to-r from-romantic-rose to-pink-500 text-white font-cute font-bold text-xl rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-110 transition-all duration-300 overflow-hidden">
+                <span class="relative z-10">Yes ❤️</span>
+                <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-romantic-rose opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </button>
+              <button id="time-btn" onclick="handleNeedTime()" class="px-10 py-4 bg-white/50 dark:bg-white/20 backdrop-blur-md border-2 border-romantic-pink/50 text-romantic-rose dark:text-romantic-pink font-cute font-semibold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 hover:bg-white/70">
+                I Need Some Time 😊
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Response Message -->
+      <div id="response-message" class="max-w-2xl mx-auto px-6 text-center mt-8" style="display: none;">
+        <div id="response-content" class="bg-white/50 dark:bg-white/10 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl border border-white/40 opacity-0 transition-all duration-1000">
+        </div>
+      </div>
+
+      <!-- Show confession button (if user wants to see without video) -->
+      <div class="text-center mt-6">
+        <button onclick="showFinalMessage()" class="font-cute text-sm text-gray-400 dark:text-gray-500 hover:text-romantic-rose dark:hover:text-romantic-pink transition-colors underline underline-offset-4">
+          Skip to message →
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== GALLERY SECTION ====== -->
+  <section id="gallery" class="page-section min-h-screen relative overflow-hidden bg-gradient-to-b from-romantic-lavender/20 via-white to-romantic-sky/20 dark:from-deep-navy dark:via-deep-purple dark:to-[#2d1b2e]" style="display: none;">
+    <div class="pt-20 md:pt-28 pb-20 relative z-20">
+      <!-- Gallery Header -->
+      <div class="text-center mb-12 px-4">
+        <h2 class="font-dancing text-3xl md:text-5xl text-romantic-rose dark:text-romantic-pink mb-3">
+          Moments That Mean the World to Me 📸
+        </h2>
+        <p class="font-cute text-base md:text-lg text-gray-500 dark:text-gray-400 italic">
+          "Every picture tells a story I never want to forget."
+        </p>
+      </div>
+      <!-- Masonry Gallery Grid -->
+      <div class="max-w-6xl mx-auto px-4">
+        <div id="gallery-grid" class="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+          <!-- Gallery items will be dynamically generated -->
+        </div>
+      </div>
+      <!-- Doraemon-themed navigation hint -->
+      <div class="text-center mt-8">
+        <p class="font-cute text-sm text-gray-400 dark:text-gray-500">
+          🚁 Click any photo to see it up close~
+        </p>
+      </div>
+    </div>
+    <!-- Floating capybara stickers -->
+    <div class="absolute bottom-8 right-8 pointer-events-none opacity-30">
+      <svg viewBox="0 0 80 60" class="w-16 h-12">
+        <ellipse cx="40" cy="35" rx="30" ry="20" fill="#D4B275"/>
+        <ellipse cx="40" cy="35" rx="27" ry="17" fill="#E4C285"/>
+        <circle cx="30" cy="22" r="8" fill="#D4B275"/>
+        <circle cx="50" cy="22" r="8" fill="#D4B275"/>
+        <circle cx="33" cy="21" r="2" fill="#333"/>
+        <circle cx="47" cy="21" r="2" fill="#333"/>
+        <ellipse cx="40" cy="26" rx="3" ry="2" fill="#8B6914"/>
+        <path d="M 35 30 Q 40 34 45 30" fill="none" stroke="#8B6914" stroke-width="1"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ====== LIGHTBOX ====== -->
+  <div id="lightbox" class="fixed inset-0 z-[90] bg-black/90 backdrop-blur-md flex items-center justify-center opacity-0 pointer-events-none transition-all duration-500" onclick="closeLightbox(event)">
+    <button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors z-10" onclick="closeLightbox()">
+      <i data-lucide="x" class="w-5 h-5"></i>
+    </button>
+    <!-- Doraemon-themed nav arrows -->
+    <button class="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-blue-400/30 border-2 border-blue-300/50 flex items-center justify-center text-white hover:bg-blue-400/50 transition-colors z-10" onclick="navigateGallery(-1)">
+      <i data-lucide="chevron-left" class="w-6 h-6"></i>
+    </button>
+    <button class="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-blue-400/30 border-2 border-blue-300/50 flex items-center justify-center text-white hover:bg-blue-400/50 transition-colors z-10" onclick="navigateGallery(1)">
+      <i data-lucide="chevron-right" class="w-6 h-6"></i>
+    </button>
+    <img id="lightbox-img" class="max-w-[90vw] max-h-[85vh] object-contain rounded-xl shadow-2xl transform scale-90 transition-transform duration-500" src="" alt="Gallery image">
+    <video id="lightbox-video" class="hidden max-w-[90vw] max-h-[85vh] object-contain rounded-xl shadow-2xl transform scale-90 transition-transform duration-500" controls loop playsinline></video>
+  </div>
+
+  <!-- ====== CONFETTI CANVAS ====== -->
+  <canvas id="confetti-canvas" class="fixed inset-0 z-[95] pointer-events-none"></canvas>
+  <div id="paper-blast-layer" class="fixed inset-0 z-[90] pointer-events-none overflow-hidden"></div>
+
+  <!-- ====== EASTER EGG TOAST ====== -->
+  <div id="easter-egg-toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[80] bg-white/80 dark:bg-white/20 backdrop-blur-xl rounded-2xl px-6 py-4 shadow-2xl border border-romantic-pink/30 opacity-0 transform translate-y-4 transition-all duration-500 pointer-events-none">
+    <p class="font-cute text-sm md:text-base text-gray-700 dark:text-gray-200 text-center" id="easter-egg-text"></p>
+  </div>
+
+  <!-- ====== DORAEMON HAPPY DANCE (for Yes response) ====== -->
+  <div id="doraemon-dance" class="fixed inset-0 z-[85] pointer-events-none flex items-center justify-center opacity-0 transition-opacity duration-500">
+    <div class="doraemon-3d-stage">
+      <div class="doraemon-3d-card">
+        <svg viewBox="0 0 180 210" class="doraemon-3d-happy" aria-label="Happy Doraemon celebrating">
+          <defs>
+            <radialGradient id="doraemonFaceGlow" cx="42%" cy="32%" r="68%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="72%" stop-color="#f7fbff"/>
+              <stop offset="100%" stop-color="#d8f0ff"/>
+            </radialGradient>
+            <linearGradient id="doraemonBlue3d" x1="20%" y1="0%" x2="80%" y2="100%">
+              <stop offset="0%" stop-color="#29c7ff"/>
+              <stop offset="52%" stop-color="#0099dd"/>
+              <stop offset="100%" stop-color="#0069aa"/>
+            </linearGradient>
+            <radialGradient id="bellGlow" cx="35%" cy="25%" r="70%">
+              <stop offset="0%" stop-color="#fff7a8"/>
+              <stop offset="60%" stop-color="#ffd447"/>
+              <stop offset="100%" stop-color="#c99000"/>
+            </radialGradient>
+            <filter id="happyShadow" x="-30%" y="-25%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="18" stdDeviation="10" flood-color="#004e7a" flood-opacity="0.25"/>
+            </filter>
+          </defs>
+          <ellipse cx="90" cy="194" rx="54" ry="11" fill="#003b64" opacity="0.18"/>
+          <g class="doraemon-arm-left">
+            <path d="M48 116 C25 104 14 82 24 72 C34 62 48 78 62 99" fill="#0099dd"/>
+            <circle cx="22" cy="70" r="16" fill="#fff"/>
+          </g>
+          <g class="doraemon-arm-right">
+            <path d="M132 116 C155 104 166 82 156 72 C146 62 132 78 118 99" fill="#0099dd"/>
+            <circle cx="158" cy="70" r="16" fill="#fff"/>
+          </g>
+          <g filter="url(#happyShadow)">
+            <ellipse cx="90" cy="133" rx="50" ry="55" fill="url(#doraemonBlue3d)"/>
+            <ellipse cx="90" cy="134" rx="39" ry="43" fill="url(#doraemonFaceGlow)"/>
+            <path d="M52 94 Q90 113 128 94" fill="none" stroke="#e03030" stroke-width="7" stroke-linecap="round"/>
+            <circle cx="90" cy="39" r="47" fill="url(#doraemonBlue3d)"/>
+            <ellipse cx="90" cy="46" rx="39" ry="36" fill="url(#doraemonFaceGlow)"/>
+            <ellipse cx="77" cy="23" rx="12" ry="15" fill="#fff" stroke="#222" stroke-width="1.5"/>
+            <ellipse cx="103" cy="23" rx="12" ry="15" fill="#fff" stroke="#222" stroke-width="1.5"/>
+            <path d="M71 24 Q77 18 83 24" fill="none" stroke="#222" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M97 24 Q103 18 109 24" fill="none" stroke="#222" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="90" cy="39" r="7" fill="#e03030"/>
+            <path d="M90 47 L90 58" stroke="#222" stroke-width="1.8"/>
+            <path d="M68 57 Q90 82 112 57" fill="#d92f46" stroke="#222" stroke-width="2"/>
+            <path d="M76 65 Q90 75 104 65" fill="#ff8da1" opacity="0.75"/>
+            <line x1="35" y1="43" x2="62" y2="49" stroke="#222" stroke-width="1.5"/>
+            <line x1="35" y1="55" x2="62" y2="55" stroke="#222" stroke-width="1.5"/>
+            <line x1="145" y1="43" x2="118" y2="49" stroke="#222" stroke-width="1.5"/>
+            <line x1="145" y1="55" x2="118" y2="55" stroke="#222" stroke-width="1.5"/>
+            <circle cx="90" cy="98" r="8" fill="url(#bellGlow)" stroke="#b78300" stroke-width="1.5"/>
+            <path d="M82 96 H98" stroke="#916300" stroke-width="2"/>
+            <ellipse cx="68" cy="189" rx="22" ry="10" fill="#fff"/>
+            <ellipse cx="112" cy="189" rx="22" ry="10" fill="#fff"/>
+          </g>
+          <text x="18" y="36" class="doraemon-joy-mark">YES!</text>
+          <text x="132" y="126" class="doraemon-heart-pop">♥</text>
+          <text x="25" y="141" class="doraemon-heart-pop delay">♥</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== AUDIO (Background Music) ====== -->
+  <!--
+    ====== HOW TO ADD YOUR MUSIC ======
+    1. Place your audio file in an "assets" folder (e.g., assets/background-music.mp3)
+    2. Update the src attribute below
+    3. The site will try to autoplay music; some browsers may wait for the first click.
+    Suggested moods: Soft piano, Lo-fi romantic, Gentle acoustic guitar
+  -->
+  <audio id="bg-music" loop preload="auto" autoplay>  
+    <source src="audio.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="cheer-audio" preload="auto">
+    <source src="cheer.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
