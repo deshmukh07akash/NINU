@@ -365,9 +365,9 @@
     </div>
 
     <!-- Main content -->
-    <div class="pt-20 md:pt-28 pb-20 relative z-20">
+    <div class="min-h-[100svh] flex flex-col justify-center py-6 md:py-8 relative z-20">
       <!-- Section title -->
-      <div class="text-center mb-8 md:mb-12">
+      <div class="text-center mb-4 md:mb-6">
         <h2 class="font-dancing text-3xl md:text-5xl lg:text-6xl text-romantic-rose dark:text-romantic-pink mb-3">
           My Confession 💕
         </h2>
@@ -377,7 +377,7 @@
       </div>
 
       <!-- Video Player -->
-      <div class="max-w-3xl mx-auto px-4 mb-12">
+      <div class="max-w-[340px] mx-auto px-4 mb-4 md:mb-6">
         <div id="confession-film-strip" class="confession-film-strip mb-4" aria-hidden="true">
           <div class="film-strip-window">
             <div id="film-strip-track" class="film-strip-track"></div>
@@ -390,7 +390,7 @@
             Example: src="assets/my-confession.mp4"
             Supported formats: mp4, webm, ogg
           -->
-          <video id="confession-video" class="w-full rounded-2xl bg-black/20 aspect-video object-cover" preload="metadata" playsinline>
+          <video id="confession-video" class="confession-video w-full rounded-2xl bg-black/20" preload="metadata" playsinline>
             <source src="video.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>

@@ -10,6 +10,7 @@ const CONFIG = {
   galleryImages: [
     { src: 'images/1.jpg', type: 'image' },
     { src: 'images/3.jpg', type: 'image' },
+    { src: 'images/2.jpg', type: 'image' },
     { src: 'images/8.jpg', type: 'image' },
     { src: 'images/video1.mp4', type: 'video' },
     { src: 'images/video2.mp4', type: 'video' },
@@ -17,6 +18,7 @@ const CONFIG = {
     { src: 'images/video6.mp4', type: 'video' },
     { src: 'images/video7.mp4', type: 'video' },
     { src: 'images/video8.mp4', type: 'video' },
+    { src: 'images/video 9.mp4', type: 'video' },
   ],
   // Floating photo/video overlay memories (shown around the confession video)
   overlayPhotos: [
@@ -24,12 +26,14 @@ const CONFIG = {
     { src: 'images/1.jpg', type: 'image' },
     { src: 'images/3.jpg', type: 'image' },
     { src: 'images/8.jpg', type: 'image' },
+    { src: 'images/2.jpg', type: 'image' },
     { src: 'images/video1.mp4', type: 'video' },
     { src: 'images/video2.mp4', type: 'video' },
     { src: 'images/video3.mp4', type: 'video' },
     { src: 'images/video6.mp4', type: 'video' },
     { src: 'images/video7.mp4', type: 'video' },
     { src: 'images/video8.mp4', type: 'video' },
+    { src: 'images/video 9.mp4', type: 'video' },
   ],
   // Doraemon gadget emojis that appear randomly
   doraemonGadgets: ['🚁', '🏮', '⏰', '🔔', '🪄', '🎋', '📞', '👒', '🔦', '🧲'],

@@ -780,6 +780,13 @@ body {
 .video-container {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+.confession-video {
+  display: block;
+  height: auto;
+  max-height: min(45svh, 302px);
+  margin-inline: auto;
+  object-fit: contain;
+}
 .video-container:hover {
   transform: translateY(-2px);
 }
