@@ -22,6 +22,7 @@ const CONFIG = {
     { src: 'images/video8.mp4', type: 'video' },
     { src: 'images/video 9.mp4', type: 'video' },
     { src: 'images/video10.mp4', type: 'video' },
+    { src: 'images/video11.mp4', type: 'video' },
   ],
   // Floating photo/video overlay memories (shown around the confession video)
   overlayPhotos: [
@@ -40,6 +41,7 @@ const CONFIG = {
     { src: 'images/video8.mp4', type: 'video' },
     { src: 'images/video 9.mp4', type: 'video' },
     { src: 'images/video10.mp4', type: 'video' },
+    { src: 'images/video11.mp4', type: 'video' },
   ],
   // Doraemon gadget emojis that appear randomly
   doraemonGadgets: ['🚁', '🏮', '⏰', '🔔', '🪄', '🎋', '📞', '👒', '🔦', '🧲'],
